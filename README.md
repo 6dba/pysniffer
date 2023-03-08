@@ -22,7 +22,6 @@ user@host:~/packet-sniffer$ sudo python3 sniffer.py
 
 *Administrative privileges are required for `scapy` to work correctly and listen to traffic*
 
-
 ## Usage
 ```
 sniffer.py [-h] [-i INTERFACE] [--show-raw]
