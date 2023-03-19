@@ -1,18 +1,10 @@
 from typing import Any, Optional
 from scapy.all import *
 from scapy.layers.http import HTTPRequest
-from colorama import init, Fore
 from datetime import datetime
 from scapy.layers.inet import IP
 
 import PySimpleGUI as sg
-
-init()
-GREEN = Fore.GREEN
-RED = Fore.RED
-RESET = Fore.RESET
-WHITE = Fore.WHITE
-BLACK = Fore.BLACK
 
 global is_raw
 

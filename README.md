@@ -25,5 +25,5 @@ user@host:~/pysniffer$ sudo python3 sniffer.py
 
 ## Usage
 ```
-user@host:~/pysniffer$ python3 sniffer.py
+user@host:~/pysniffer$ sudo python3 sniffer.py
 ```
