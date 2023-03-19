@@ -1,6 +1,7 @@
 # HTTP traffic sniffer
 
 ![Python Version](https://img.shields.io/badge/python-3.8+-blue?style=for-the-badge&logo=python)
+[![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/6dba/pysniffer?label=CodeFactor&logo=codefactor&style=for-the-badge)](https://www.codefactor.io/repository/github/6dba/pysniffer)
 
 A HTTP Packet Sniffer developed in Python 3.
 
@@ -16,13 +17,13 @@ Simply clone this repository with `git clone`, install the dependencies and exec
 ```
 user@host:~$ git clone https://github.com/6dba/pysniffer.git
 user@host:~$ cd pysniffer
-user@host:~/packet-sniffer$ pip install -r requirements.txt
-user@host:~/packet-sniffer$ sudo python3 sniffer.py
+user@host:~/pysniffer$ pip install -r requirements.txt
+user@host:~/pysniffer$ sudo python3 sniffer.py
 ```
 
 *Administrative privileges are required for `scapy` to work correctly and listen to traffic*
 
 ## Usage
 ```
-python sniffer.py
+user@host:~/pysniffer$ python3 sniffer.py
 ```
