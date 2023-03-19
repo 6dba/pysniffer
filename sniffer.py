@@ -3,33 +3,33 @@ from scapy.all import *
 from scapy.layers.http import HTTPRequest
 from colorama import init, Fore
 from datetime import datetime
+from scapy.layers.inet import IP
 
-# COLORAMA
+import PySimpleGUI as sg
+
 init()
-
 GREEN = Fore.GREEN
 RED = Fore.RED
 RESET = Fore.RESET
 WHITE = Fore.WHITE
+BLACK = Fore.BLACK
+
+global is_raw
 
 
 def sniff_packets(interface: Optional[str] = None) -> None:
     """
     Перехват пакетов 80 портов с помощью 'iface', если None (по умолчанию), то
-    используется интерфейс scapy
+    используется интерфейс scapy.
 
     :param Optional[str] iface: Опциональный сетевой интерфейс
     :rtype: None
     """
-    if interface:
-        print(
-            f"\n{WHITE}[!] Start sniffing HTTP with interface {interface} {RESET}")
-        # 'process_packet' - коллбек функция, которая вызывается для каждого пакета
-        sniff(filter="port 80", prn=process_packet,
-              iface=interface, store=False)
-    else:
-        print(f"\n{WHITE}[!] Start sniffing HTTP {RESET}")
-        sniff(filter="port 80", prn=process_packet, store=False)
+    window['output'].print(
+        f"\n[!] Start sniffing HTTP with interface {interface if interface else 'scapy'}")
+    window.refresh()
+
+    sniff(filter="port 80", prn=process_packet, iface=interface, store=False)
 
 
 def process_packet(packet: Any) -> None:
@@ -40,37 +40,37 @@ def process_packet(packet: Any) -> None:
     :rtype: None
     """
     if packet.haslayer(HTTPRequest):
-        # Получение полей пакета
         url = packet[HTTPRequest].Host.decode(
         ) + packet[HTTPRequest].Path.decode()
         src = packet[IP].src
         dst = packet[IP].dst
         method = packet[HTTPRequest].Method.decode()
 
-        # packet.show() # for more information about packet
-
-        print(
-            f"\n{GREEN}[+] {WHITE}[{datetime.now()}]{GREEN} src: {WHITE}{src}{GREEN} Requested {url} dst: {WHITE}{dst}{GREEN} with {method}{RESET}")
+        window['output'].print(
+            f"\n[+] [{datetime.now()}] src: {src} Requested {url} dst: {dst} with {method}")
+        window.refresh()
 
         if is_raw and packet.haslayer(Raw) and method == "POST":
-            # если флаг is_raw включен и пакет содержит отправляемые POST данные
-            print(
-                f"\n{RED}[*] {WHITE}[{datetime.now()}]{RED} Some useful raw data: {packet[Raw].load}{RESET}")
+            window['output'].print(
+                f"\n[*] [{datetime.now()}] Some useful raw data: {packet[Raw].load}")
+            window.refresh()
 
 
 if __name__ == "__main__":
-    import argparse
 
-    parser = argparse.ArgumentParser(description="Сниффер HTTP-пакетов")
-    parser.add_argument(
-        "-i", "--interface", help="Сетевой интерфейс для использования, по умолчанию используется интерфейс scapy. " +
-        "Для Windows, имя интерфейсов указывать исключительно на EN!")
-    parser.add_argument("--show-raw", dest="raw", action="store_true",
-                        help="Печатать ли необработанные данные POST запроса, такие как пароли, поисковые запросы и т. д.")
+    layout = [[sg.Text('Enter interface (optional):'), sg.InputText(key='interface')],
+              [sg.Checkbox('Show raw data', key='raw')],
+              [sg.Button('Start'), sg.Button('Exit')],
+              [sg.Multiline(key='output', size=(80, 20), autoscroll=True)]]
 
-    args = parser.parse_args()
+    window = sg.Window('PySniffer', layout)
 
-    interface = args.interface
-    is_raw = args.raw
+    while True:
+        event, values = window.read()
+        if event == sg.WIN_CLOSED or event == 'Exit':
+            break
+        elif event == 'Start':
+            is_raw = values['raw']
+            sniff_packets(interface=values['interface'])
 
-    sniff_packets(interface=interface)
+    window.close()

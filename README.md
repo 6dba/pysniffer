@@ -24,13 +24,5 @@ user@host:~/packet-sniffer$ sudo python3 sniffer.py
 
 ## Usage
 ```
-sniffer.py [-h] [-i INTERFACE] [--show-raw]
-
-Сниффер HTTP-пакетов
-
-options:
-  -h, --help            show this help message and exit
-  -i INTERFACE, --interface INTERFACE
-                        Сетевой интерфейс для использования, по умолчанию используется интерфейс scapy. Для Windows, имя интерфейсов указывать исключительно на EN!
-  --show-raw            Печатать ли необработанные данные POST запроса, такие как пароли, поисковые запросы и т. д.
+python sniffer.py
 ```
