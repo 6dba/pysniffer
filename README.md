@@ -11,19 +11,19 @@ Monitoring the network always seems to be a useful task for network security eng
 
 ## Running the Application
 Simply clone this repository with `git clone`, install the dependencies and execute the 
-`sniffer.py` file.
+`main.py` file.
 
 **You must first install [Npcap](https://npcap.com/)**
 ```
 user@host:~$ git clone https://github.com/6dba/pysniffer.git
 user@host:~$ cd pysniffer
 user@host:~/pysniffer$ pip install -r requirements.txt
-user@host:~/pysniffer$ sudo python3 sniffer.py
+user@host:~/pysniffer$ sudo python3 main.py
 ```
 
 *Administrative privileges are required for `scapy` to work correctly and listen to traffic*
 
 ## Usage
 ```
-user@host:~/pysniffer$ sudo python3 sniffer.py
+user@host:~/pysniffer$ sudo python3 main.py
 ```
